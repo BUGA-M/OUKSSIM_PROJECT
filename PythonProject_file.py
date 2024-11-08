@@ -1,66 +1,77 @@
+import csv
+import random
+
+#fonction pour Le menu
 def menu():
-    print(".........................................................................")
-    print("                       |         MENU          |                         ")
-    print(".........................................................................")
-    print("|     1     |     2     |     3     |     4     |     5     |     6     |")
-    print(".........................................................................")
-    print("|     7     |     8     |     9     |     10    |     11    |     12    |")
-    print(".........................................................................")
-    print("|     13    |     14    |     15    |     16    |     17    |     18    |")
-    print(".........................................................................")
-    print("|     19    |     20    |     21    |     22    |     23    |     24    |")
-    print(".........................................................................")
+    print("-----------------------------------MENU----------------------------------\n"
+          "|   01   |   02   |   03   |   04   |   05   |   06   |   07   |   08   |\n"
+          "-------------------------------------------------------------------------\n"
+          "|   09   |   10   |   11   |   12   |   13   |   14   |   15   |   16   |\n"
+          "-------------------------------------------------------------------------\n"
+          "|   17   |   18   |   19   |   20   |   21   |   22   |   23   |   24   |\n"
+          "-------------------------------------------------------------------------\n"
+    )
+
+# ouverture du fichier des questions en ecriture pour le remplissage
+with open("QST.csv", "w", newline="", encoding="utf-8") as fQ:
+    QST=csv.writer(fQ, delimiter=";")
+    QST.writerow(["Quel est le plus grand ocean du monde?" , "A)  Atlantique", "B)  Indien","C)  Arctique ","D)  Pacifique" ])
+    QST.writerow([ "Quel pays est connu pour la Tour Eiffel? ", "A)  Italie" ,"B)  Espagne" ,"C)  France" ,"D)  Allemagne"])
+    QST.writerow([ "Quelle est la formule chimique de l'eau?", "A)  H2O","B)  CO2","C)  O2","D)  H2SO4"])
+    QST.writerow(["Combien y a-t-il de planetes dans notre systeme solaire?","A)  7", "B)  8","C)  9", "D)  10"])
+    QST.writerow(["Qui a ecrit L'Origine des especes?",  "A)  Isaac Newton", "B)  Albert Einstein","C)  Charles Darwin","D)  Galilee"])
+
+#ouverture du fichier des reponses en ecriture pour le remplissage
+with open("reponse.csv","w",newline="",encoding="utf-8") as fR:
+    reponse=csv.writer(fR, delimiter=";")
+    reponse.writerow(["Pacifique",])
+    reponse.writerow(["France"])
+    reponse.writerow(["H2O"])
+    reponse.writerow(["8"])
+    reponse.writerow(["Charles Darwin"])
 
 
-# menu()
-Q=[
-    "Quelle est la capitale de la France ?",
-    "Quel est le plus grand océan du monde ?",
-    "Qui a écrit Roméo et Juliette ?",
-    "Quel est l'élément chimique dont le symbole est O ?",
-    "Quel est le pays d'origine du sushi ?",
-    "Quel animal est connu comme le roi de la jungle ?",
-    "Quelle planète est connue comme la planète rouge ?",
-    "Qui a peint la Mona Lisa ?",
-    "Quel est le plus long fleuve du monde ?",
-    "Quel sport utilise un ballon ovale ?",
-    ".................",
-    "BOMM",
-
-]
-R1=["A- Berlin","A- Atlantique","A- Victor Hugo","A- Or","A- Chine","A- Tigre","A- Vénus","A- Vincent van Gogh","A- Amazone","A- Football","","you loss"]
+#ouverture du fichier des question en lecture
+with open("QST.csv", "r", encoding="utf-8") as fLQ:
+    L_QST=list( csv.reader(fLQ, delimiter=";"))
 
 
-R2=["B- Madrid","B- Indien","B- William Shakespeare","B- Oxygène","B- Japon","B- TLéopard","B- Mars","B- Pablo Picasso","B- Nil","B- Rugby","",""]
+#ouverture du fichier des reponse en lecture
+with open("reponse.csv", "r", encoding="utf-8") as fLR:
+    l_reponse=list( csv.reader(fLR, delimiter=";"))
 
-
-R3=["C- Paris","C- Pacifique","C- Molière","C- Hydrogène","C- Hydrogène","C- Corée","C- Lion","C- Léonard de Vinci","C- Yangtsé","C- Basketball","",""]
-
-
-R4=["D- Rome","D- Arctique","D- Gustave Flaubert","D- Azote","D- Thaïlande","D- Éléphant","D- Saturne","D- Claude Monet","D- Mississippi","D- Tennis","",""]
-VraiReponce=[] 
-for i in range(1,12):
-    print(Q[i])
-    if R1[i] =="":
-
-        pass
+#debut d'affichage du programme
+while True:
+    x=input("Taper star pour debuter le jeux ou stop pour arreter : ")
+    if x.lower() == "star" :
+        menu()
+        break
+    if x.lower() == "stop":
+        print("programme quitter")
+        quit()
     else:
-        print(" ",R1[i])
-    
-    if R2[i] =="":
+        print(" Erreur !! veuillez repeter votre choix")
 
-        pass
-    else:
-        print(" ",R2[i])
-    if R3[i] =="":
+for i in range (4):
+    print(f"le groupe {i+1}: ")
+    #choi d'un nombre
+    NB=int(input("veuillez choisir un nombre : "))
+    #choix par hasard du question
+    hasard=(random.choice(L_QST))
+    ligne_de_qst=L_QST.index(hasard)
+    for y in hasard:
+        print("     ",y ,"\n")
 
-        pass
-    else:
-        print(" ",R3[i])
-    if R4[i] =="":
+    #reponse d'utilisateur
+    reponse_utilisateur=input("votre reponse :")
 
-        pass
+    #verification des reponse
+    reponse_correct=l_reponse[ligne_de_qst]
+    if reponse_utilisateur.lower().strip() == reponse_correct[0].lower():
+        print(f"\n reponse est correct Vous avez gagné 100 pts")
     else:
-        print(" ",R4[i])
+        print(f"\n Réponse incorrecte. La bonne réponse était : {reponse_correct[0]}")
+    L_QST.remove(hasard)
+    l_reponse.remove(reponse_correct)
 
 
